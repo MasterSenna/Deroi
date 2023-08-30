@@ -1,0 +1,32 @@
+package br.com.decola.dao;
+
+
+import java.sql.Connection;
+import java.util.List;
+
+import br.com.decola.entidade.Viagem;
+
+public class ViagemDAO {
+    private Connection connection;
+
+    public ViagemDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+	public void inserirViagem(Viagem viagem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public List<Viagem> listarViagens() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void deletarViagem(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+    // Implemente métodos para inserir, selecionar, deletar e editar viagens no banco de dados.
+}

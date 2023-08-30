@@ -1,0 +1,27 @@
+package br.com.decola.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class ConnectionFactory {
+ public Connection getConexao () {
+	 Connection conexao = null;
+	 
+	 try { 
+		 Class.forName("org.sqlserver.Driver");
+		 conexao = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName="
+		    		+ "ViagensDB;user=sa;password=TecInfo;encrypt=true;trustServerCertificate=true");
+		 
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+		System.err.println("SQLExecption: " + e.getMessage());
+	}
+	 return conexao;
+ }
+
+public static Connection getConnection() {
+	// TODO Auto-generated method stub
+	return null;
+}
+}

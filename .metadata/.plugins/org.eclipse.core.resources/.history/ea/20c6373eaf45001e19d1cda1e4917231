@@ -1,0 +1,5 @@
+package br.com.decola.dao;
+
+public class ConnectionFactory {
+
+}

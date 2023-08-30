@@ -1,0 +1,13 @@
+
+package br.com.decola.entidade;
+
+import java.util.Date;
+
+public class Viagem {
+    private int id;
+    private String destino;
+    private Date dataPartida;
+    private Date dataRetorno;
+
+    // Getters e Setters
+}

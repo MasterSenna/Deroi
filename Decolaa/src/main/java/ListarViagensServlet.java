@@ -1,0 +1,41 @@
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.decola.dao.ConnectionFactory;
+import br.com.decola.dao.ViagemDAO;
+import br.com.decola.entidade.Viagem;
+
+
+
+@WebServlet("/listarViagens")
+public class ListarViagensServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try (Connection connection = ConnectionFactory.getConnection()) {
+            ViagemDAO viagemDAO = new ViagemDAO(connection);
+
+            // Chama o método listarViagens da classe DAO
+            List<Viagem> viagens = viagemDAO.listarViagens();
+
+            // Define a lista de viagens como um atributo da requisição
+            request.setAttribute("viagens", viagens);
+
+            // Encaminha a requisição para uma página JSP que exibirá a lista de viagens
+            request.getRequestDispatcher("/listarViagens.jsp").forward(request, response);
+        } catch (SQLException e) {
+            // Trate a exceção apropriadamente, talvez redirecionando para uma página de erro
+            e.printStackTrace();
+            response.sendRedirect("erro.jsp");
+        }
+    }
+}

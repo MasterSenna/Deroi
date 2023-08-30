@@ -1,0 +1,10 @@
+INDEX VERSION 1.4+C:\novo\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+776039510.index
+3846035549.index
+483888422.index
+3353012442.index
+899622343.index
+3520846738.index
+3244704807.index
+3377403889.index
+635915631.index

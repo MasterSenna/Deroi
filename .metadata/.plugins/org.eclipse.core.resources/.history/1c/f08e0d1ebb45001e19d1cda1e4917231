@@ -1,0 +1,23 @@
+package br.com.decola.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConnectionFactory {
+    private static final String URL = "jdbc:sqlserver://DESKTOP-IIOKE60:1433;databaseName=db_Biblioteca";
+    private static final String USUARIO = "sa";
+    private static final String SENHA = "Tecinfo";
+
+    public static Connection getConnection() {
+        Connection conexao = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            System.err.println("SQLException: " + e.getMessage());
+        }
+        return conexao;
+    }
+}

@@ -1,0 +1,88 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.decola.entidade.Viagem;
+
+public class ViagemDAO {
+    private Connection connection;
+
+    public ViagemDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    public void inserirViagem(Viagem viagem) throws SQLException {
+        String sql = "INSERT INTO Destinos (nome_destino, descricao, data_partida, data_retorno, preco) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, viagem.getDestino());
+            statement.setString(2, viagem.getDescricao());
+            statement.setDate(3, new java.sql.Date(viagem.getDataPartida().getTime()));
+            statement.setDate(4, new java.sql.Date(viagem.getDataRetorno().getTime()));
+            statement.setBigDecimal(5, viagem.getPreco());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // Trate a exceção apropriadamente ou lance-a para cima na hierarquia de exceções.
+            throw e;
+        }
+    }
+
+    public List<Viagem> listarViagens() throws SQLException {
+        List<Viagem> viagens = new ArrayList<>();
+        String sql = "SELECT * FROM Destinos";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Viagem viagem = new Viagem();
+                viagem.setId(resultSet.getInt("id"));
+                viagem.setDestino(resultSet.getString("nome_destino"));
+                viagem.setDescricao(resultSet.getString("descricao"));
+                viagem.setDataPartida(resultSet.getDate("data_partida"));
+                viagem.setDataRetorno(resultSet.getDate("data_retorno"));
+                viagem.setPreco(resultSet.getBigDecimal("preco"));
+
+                viagens.add(viagem);
+            }
+        } catch (SQLException e) {
+            // Trate a exceção apropriadamente ou lance-a para cima na hierarquia de exceções.
+            throw e;
+        }
+
+        return viagens;
+    }
+
+    public void deletarViagem(int id) throws SQLException {
+        String sql = "DELETE FROM Destinos WHERE id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // Trate a exceção apropriadamente ou lance-a para cima na hierarquia de exceções.
+            throw e;
+        }
+    }
+
+    public void editarViagem(Viagem viagem) throws SQLException {
+        String sql = "UPDATE Destinos SET nome_destino = ?, descricao = ?, data_partida = ?, data_retorno = ?, preco = ? WHERE id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, viagem.getDestino());
+            statement.setString(2, viagem.getDescricao());
+            statement.setDate(3, new java.sql.Date(viagem.getDataPartida().getTime()));
+            statement.setDate(4, new java.sql.Date(viagem.getDataRetorno().getTime()));
+            statement.setBigDecimal(5, viagem.getPreco());
+            statement.setInt(6, viagem.getId());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // Trate a exceção apropriadamente ou lance-a para cima na hierarquia de exceções.
+            throw e;
+        }
+    }
+}

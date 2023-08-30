@@ -1,0 +1,14 @@
+package br.com.decola.dao;
+
+
+import java.sql.Connection;
+
+public class ViagemDAO {
+    private Connection connection;
+
+    public ViagemDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    // Implemente métodos para inserir, selecionar, deletar e editar viagens no banco de dados.
+}

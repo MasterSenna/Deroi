@@ -1,0 +1,55 @@
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Date;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.decola.dao.ConnectionFactory;
+import br.com.decola.dao.ViagemDAO;
+import br.com.decola.entidade.Viagem;
+
+@WebServlet("/inserirViagem")
+public class InserirViagemServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String destino = request.getParameter("destino");
+        String dataPartidaStr = request.getParameter("data_partida");
+        String dataRetornoStr = request.getParameter("data_retorno");
+
+        try (Connection connection = ConnectionFactory.getConnection()) {
+            ViagemDAO viagemDAO = new ViagemDAO(connection);
+
+            // Converte as datas do formato de string para Date
+            Date dataPartida = new Date(java.sql.Date.valueOf(dataPartidaStr).getTime());
+            Date dataRetorno = new Date(java.sql.Date.valueOf(dataRetornoStr).getTime());
+
+            // Cria uma nova instância de Viagem
+            Viagem viagem = new Viagem();
+            viagem.setDestino(destino);
+            viagem.setDataPartida(dataPartida);
+            viagem.setDataRetorno(dataRetorno);
+
+            // Chama o método inserirViagem da classe DAO
+            viagemDAO.inserirViagem(viagem);
+
+            // Redireciona para alguma página de sucesso
+            response.sendRedirect("sucesso.jsp");
+        } catch (SQLException e) {
+            // Trate a exceção apropriadamente, talvez redirecionando para uma página de erro
+            e.printStackTrace();
+            response.sendRedirect("erro.jsp");
+        }
+        
+        System.out.println("destino");
+        System.out.println("data_partida");
+        System.out.println("data_retorno");
+        
+    }
+}
